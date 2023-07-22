@@ -1,0 +1,105 @@
+<!--<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CompanyDatabase</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<form action="#" th:action="@{/addCompany}" th:object="${company}" method="post">
+    <label for="id">id</label>
+    <input type="text" th:field="*{id}" id="id" placeholder="id">
+    <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
+
+    <label for="CompanyName">CompanyName</label>
+    <input type="text" th:field="*{CompanyName}" id="CompanyName" placeholder="CompanyName">
+    <span th:if="${#fields.hasErrors('CompanyName')}" th:errors="*{CompanyName}"></span>
+
+    <label for="CompanyAddress">CompanyAddress</label>
+    <input type="text" th:field="*{CompanyAddress}" id="CompanyAddress" placeholder="CompanyAddress">
+    <span th:if="${#fields.hasErrors('CompanyAddress')}" th:errors="*{CompanyAddress}"></span>
+
+    <label for="CompanyAfm">CompanyAfm</label>
+    <input type="text" th:field="*{CompanyAfm}" id="CompanyAfm" placeholder="CompanyAfm">
+    <span th:if="${#fields.hasErrors('CompanyAfm')}" th:errors="*{CompanyAfm}"></span>
+
+    <label for="Number">Number</label>
+    <input type="text" th:field="*{Number}" id="Number" placeholder="Number">
+    <span th:if="${#fields.hasErrors('Number')}" th:errors="*{Number}"></span>
+
+    <label for="OwnerName">OwnerName</label>
+    <input type="text" th:field="*{OwnerName}" id="OwnerName" placeholder="OwnerName">
+    <span th:if="${#fields.hasErrors('OwnerName')}" th:errors="*{OwnerName}"></span>
+
+    <input type="submit" value="Add Company">
+</form>
+
+</body>
+</html>
+-->
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>CompanyDatabase</title>
+</head>
+<body>
+<div align="center">
+    <h1> Create Company </h1>
+    <br />
+    <form action="#" th:action="@{/addCompany}" th:object="${company}" method="post">
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input type="text" th:field="*{CompanyName}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Address:</td>
+                <td>
+                    <input type="text" th:field="*{CompanyAddress}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Number:</td>
+                <td>
+                    <input type="text" th:field="*{Number}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Afm:</td>
+                <td>
+                    <input type="text" th:field="*{CompanyAfm}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Owner:</td>
+                <td>
+                    <input type="text" th:field="*{OwnerName}" />
+                </td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Add Company">
+    </form>
+</div>
+</body>
+</html>

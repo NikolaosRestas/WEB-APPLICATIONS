@@ -1,0 +1,111 @@
+<!--<form action="#"
+      th:action="@{/customer/update/{id}(id=${customer.id})}"
+      th:object="${customer}"
+      method="post" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <label for="id">id</label>
+    <input type="text" th:field="*{id}" id="id" placeholder="Id">
+    <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
+
+    <label for="CustomerName">CustomerName</label>
+    <input type="text" th:field="*{CustomerName}" id="CustomerName" placeholder="CustomerName">
+    <span th:if="${#fields.hasErrors('CustomerName')}" th:errors="*{CustomerName}"></span>
+
+    <label for="CustomerAddress">CustomerAddress</label>
+    <input type="text" th:field="*{CustomerAddress}" id="CustomerAddress" placeholder="CustomerAddress">
+    <span th:if="${#fields.hasErrors('CustomerAddress')}" th:errors="*{CustomerAddress}"></span>
+
+    <label for="CustomerAfm">CustomerAfm</label>
+    <input type="text" th:field="*{CustomerAfm}" id="CustomerAfm" placeholder="CustomerAfm">
+    <span th:if="${#fields.hasErrors('CustomerAfm')}" th:errors="*{CustomerAfm}"></span>
+
+    <label for="Number">Number</label>
+    <input type="text" th:field="*{Number}" id="Number" placeholder="Number">
+    <span th:if="${#fields.hasErrors('Number')}" th:errors="*{Number}"></span>
+
+    <label for="Gender">Gender</label>
+    <input type="text" th:field="*{Gender}" id="Gender" placeholder="Gender">
+    <span th:if="${#fields.hasErrors('Gender')}" th:errors="*{Gender}"></span>
+
+    <label for="company">Company</label>
+    <input type="text" th:field="*{company}" id="company" placeholder="company">
+    <span th:if="${#fields.hasErrors('company')}" th:errors="*{company}"></span>
+
+    <input type="submit" value="Update Customer">
+</form>
+-->
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>CompanyDatabase</title>
+</head>
+<body>
+<div align="center">
+    <h1>Update Customer</h1>
+    <br />
+    <form action="#" th:action="@{/customer/update/{id}(id=${customer.id})}" th:object="${customer}" method="post">
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input type="text" th:field="*{CustomerName}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Address:</td>
+                <td>
+                    <input type="text" th:field="*{CustomerAddress}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Afm:</td>
+                <td>
+                    <input type="text" th:field="*{CustomerAfm}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Gender:</td>
+                <td>
+                    <input type="text" th:field="*{Gender}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Number:</td>
+                <td>
+                    <input type="text" th:field="*{Number}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Company:</td>
+                <td>
+                    <input type="text" th:field="*{company}" />
+                </td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Update Customer">
+
+    </form>
+</div>
+</body>
+</html>

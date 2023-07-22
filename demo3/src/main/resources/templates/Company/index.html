@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CompanyDatabase</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<div  table class="table table-bordered">
+    <div th:switch="${companies}">
+        <h2 th:case="null">No Companies yet!</h2>
+        <div th:case="*">
+            <h2>Companies</h2>
+            <table border="1" cellpadding="10">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>CompanyName</th>
+                    <th>CompanyAddress</th>
+                    <th>CompanyAfm</th>
+                    <th>Number</th>
+                    <th>OwnerName</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="company : ${companies}">
+                    <td th:text="${company.id}"></td>
+                    <td th:text="${company.CompanyName}"></td>
+                    <td th:text="${company.CompanyAddress}"></td>
+                    <td th:text="${company.CompanyAfm}"></td>
+                    <td th:text="${company.Number}"></td>
+                    <td th:text="${company.OwnerName}"></td>
+                    <td><a th:href="@{/company/delete/{id}(id=${company.id})}">Delete</a></td>
+                    <td><a th:href="@{/company/edit/{id}(id=${company.id})}">Edit</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <p><a href="/company/create">Add a new Company</a></p>
+
+        <a class="h1" href="/customer/index">customers/</a>
+        <a class="h1" href="/vehicle/index">vehicles</a>
+
+    </div>
+</div>
+</body>
+</html>
+
+
