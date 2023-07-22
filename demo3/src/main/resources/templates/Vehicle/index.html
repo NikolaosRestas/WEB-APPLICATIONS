@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CompanyDatabase</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<div  table class="table table-bordered">
+    <div th:switch="${vehicles}">
+        <h2 th:case="null">No Vehicles yet!</h2>
+        <div th:case="*">
+            <h2>Vehicles</h2>
+            <table border="1" cellpadding="10">
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>VehicleBrand</th>
+                    <th>VehicleModel</th>
+                    <th>Plate</th>
+                    <th>Colour</th>
+                    <th>Customer</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vehicle : ${vehicles}">
+                    <td th:text="${vehicle.id}"></td>
+                    <td th:text="${vehicle.VehicleBrand}"></td>
+                    <td th:text="${vehicle.VehicleModel}"></td>
+                    <td th:text="${vehicle.Plate}"></td>
+                    <td th:text="${vehicle.Colour}"></td>
+                    <td th:text="${vehicle.customer.id}"></td>
+
+                    <td><a th:href="@{/vehicle/delete/{id}(id=${vehicle.id})}">Delete</a></td>
+                    <td><a th:href="@{/vehicle/edit/{id}(id=${vehicle.id})}">Edit</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <p><a href="/vehicle/create">Add a new Vehicle</a></p>
+
+        <a class="h1" href="/company/index">companies/</a>
+        <a class="h1" href="/customer/index">customers</a>
+
+    </div>
+</div>
+</body>
+</html>
