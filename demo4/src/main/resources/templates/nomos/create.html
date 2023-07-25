@@ -1,0 +1,61 @@
+<!--<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>GymDatabase</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<form action="#" th:action="@{/addNomos}" th:object="${county}" method="post">
+
+  <label for="Description">Description</label>
+  <input type="text" th:field="*{Description}" id="Description" placeholder="Description">
+  <span th:if="${#fields.hasErrors('Description')}" th:errors="*{Description}"></span>
+  <input type="submit" value="Add Nomos">
+</form>
+
+</body>
+</html>
+-->
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8" />
+  <title>GymDatabase</title>
+</head>
+<body>
+<div align="center">
+  <h1> Create Nomos </h1>
+  <br />
+  <form action="#" th:action="@{/addNomos}" th:object="${county}" method="post">
+
+    <table border="0" cellpadding="10">
+      <tr>
+        <td>Description:</td>
+        <td>
+
+          <!--<input type="text" th:field="*{Description}" />-->
+
+          <select>
+            <option value="Ioannina">Ioannina</option>
+            <option value="Igoumenitsa">Igoumenitsa</option>
+            <option value="Athens">Athens</option>
+            <option value="Kalamata">Kalamata</option>
+          </select>
+
+          <input type="text" th:field="*{Description}" />
+
+        </td>
+      </tr>
+    </table>
+
+    <input type="submit" value="Add Nomos">
+
+  </form>
+</div>
+</body>
+</html>
