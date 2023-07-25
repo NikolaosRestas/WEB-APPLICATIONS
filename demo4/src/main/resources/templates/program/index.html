@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>GymDatabase</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<div  table class="table table-bordered" align="center">
+  <div th:switch="${programs}">
+    <h2 th:case="null">No Programs yet!</h2>
+    <div th:case="*">
+      <h2>Programs</h2>
+      <table>
+        <thead>
+        <tr>
+          <th>id</th>
+          <th>Kind</th>
+          <th>Price</th>
+          <th>Duration</th>
+          <th>Customer</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="program : ${programs}">
+          <td th:text="${program.id}"></td>
+          <td th:text="${program.Kind}"></td>
+          <td th:text="${program.Price}"></td>
+          <td th:text="${program.Duration}"></td>
+          <td th:text="${program.customer.id}"></td>
+          <td><a th:href="@{/program/delete/{id}(id=${program.id})}">Delete</a></td>
+          <td><a th:href="@{/program/edit/{id}(id=${program.id})}">Edit</a></td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><a href="/program/create">Add a new Program</a></p>
+
+    <a class="h1" href="/county/index">nomoses/</a>
+    <a class="h1" href="/gym/index">gyms/</a>
+    <a class="h1" href="/customer/index">customers/</a>
+    <a class="h1" href="/staff/index">staff</a>
+
+  </div>
+</div>
+</body>
+</html>

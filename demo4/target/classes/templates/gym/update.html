@@ -1,0 +1,69 @@
+<!--<form action="#"
+      th:action="@{/gym/update/{id}(id=${gym.id})}"
+      th:object="${gym}"
+      method="post" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <label for="GymName">GymName</label>
+    <input type="text" th:field="*{GymName}" id="GymName" placeholder="GymName">
+    <span th:if="${#fields.hasErrors('GymName')}" th:errors="*{GymName}"></span>
+
+    <label for="GymAddress">GymAddress</label>
+    <input type="text" th:field="*{GymAddress}" id="GymAddress" placeholder="GymAddress">
+    <span th:if="${#fields.hasErrors('GymAddress')}" th:errors="*{GymAddress}"></span>
+
+    <label for="county">Nomos</label>
+    <input type="text" th:field="*{county}" id="county" placeholder="county">
+    <span th:if="${#fields.hasErrors('county')}" th:errors="*{county}"></span>
+
+
+    <input type="submit" value="Update Gym">
+</form>
+-->
+
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <title>GymDatabase</title>
+</head>
+<body>
+<div align="center">
+    <h1>Update Gym</h1>
+    <br />
+    <form action="#" th:action="@{/gym/update/{id}(id=${gym.id})}" th:object="${gym}" method="post">
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Name:</td>
+                <td>
+                    <input type="text" th:field="*{GymName}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Address:</td>
+                <td>
+                    <input type="text" th:field="*{GymAddress}" />
+                </td>
+            </tr>
+        </table>
+
+        <table border="0" cellpadding="10">
+            <tr>
+                <td>Nomos:</td>
+                <td>
+                    <input type="text" th:field="*{county}" />
+                </td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Update Gym">
+
+    </form>
+</div>
+</body>
+</html>
