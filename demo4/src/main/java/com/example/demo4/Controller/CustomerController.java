@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
 @RequestMapping("/customers")
 public class CustomerController {
     private final CustomerService customerService;
@@ -17,6 +18,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
     @GetMapping
     public List<Customer> getCustomers() {
         return customerService.getAllCustomers();
