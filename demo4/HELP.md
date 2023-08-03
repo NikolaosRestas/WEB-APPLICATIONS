@@ -7,6 +7,7 @@
 5) Tests - JUnit, Mockito
 
 How to create a new project:
+(do not run again)
 ```cmd
 PS E:\my-projects\WEB-APPLICATIONS\demo4\src\main> npx create-react-app frontend
 PS E:\my-projects\WEB-APPLICATIONS\demo4\src\main> cd .\frontend\
