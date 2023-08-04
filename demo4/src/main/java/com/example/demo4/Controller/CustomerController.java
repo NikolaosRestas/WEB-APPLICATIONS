@@ -18,7 +18,6 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
-    @CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
     @GetMapping
     public List<Customer> getCustomers() {
         return customerService.getAllCustomers();
@@ -42,7 +41,8 @@ public class CustomerController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer, @PathVariable("id") long id) {
+        customer.setId(id);
         Customer updatedCustomer = customerService.updateCustomer(customer);
         return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
 

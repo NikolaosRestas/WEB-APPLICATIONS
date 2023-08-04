@@ -21,4 +21,11 @@ How to run the project:
 npm run start
 ``` 
 
+Technologies:
+1) Spring Boot
+2) React JS
+3) Tailwind CSS - https://tailwindcss.com/docs/top-right-bottom-left
+4) Material UI - https://mui.com/material-ui/react-alert/
+5) Material Icons - https://mui.com/material-ui/material-icons/?query=Menu
+
 The created page is: http://localhost:3000/
