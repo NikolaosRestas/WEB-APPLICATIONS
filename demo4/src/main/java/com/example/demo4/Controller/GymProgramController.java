@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
 @RequestMapping("/programs")
 public class GymProgramController {
     private final GymProgramService programService;

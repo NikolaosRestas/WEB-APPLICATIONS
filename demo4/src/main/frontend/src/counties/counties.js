@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import GymsTableComponent from "./GymsTableComponent";
+import CountiesTableComponent from "./CountiesTableComponent";
 
-const GymsPage = () => {
-    const [gymsData, setGymsData] = useState([]);
+const CountiesPage = () => {
+    const [countiesData, setCountiesData] = useState([]);
 
     useEffect(() => {
-        // Function to fetch gyms data from the API
-        fetch('/gyms')
+        // Function to fetch counties data from the API
+        fetch('/counties')
             .then(response => response.json())
             .then(data => {
-                setGymsData(data);
+                setCountiesData(data);
             });
 
         return () => {
@@ -22,10 +22,10 @@ const GymsPage = () => {
 
     return (
         <div className="container mx-auto mt-8">
-            <h3 className="text-3xl font-bold mb-4">Gyms</h3>
-            <GymsTableComponent gyms={gymsData}/>
+            <h3 className="text-3xl font-bold mb-4">Counties</h3>
+            <CountiesTableComponent counties={countiesData}/>
         </div>
     );
 };
 
-export default GymsPage;
+export default CountiesPage;

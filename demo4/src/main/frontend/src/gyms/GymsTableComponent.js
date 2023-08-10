@@ -8,17 +8,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Button} from "@mui/material";
 import {useState} from "react";
-import EditCustomerModal from "./EditCustomerModal";
+import EditGymModal from "./EditGymModal";
 
 
-export default function CustomersTableComponent({customers}) {
+export default function GymsTableComponent({gyms}) {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
 
-    function onEdit(customer) {
-        console.log('Ekana click to customer: ', customer);
-        setSelectedClient(customer);
+    function onEdit(gym) {
+        console.log('Ekana click to gym: ', gym);
+        setSelectedClient(gym);
         setIsEditModalOpen(true);
     }
 
@@ -35,29 +35,27 @@ export default function CustomersTableComponent({customers}) {
                             <TableCell>Id</TableCell>
                             <TableCell align="right">Name</TableCell>
                             <TableCell align="right">Address</TableCell>
-                            <TableCell align="right">Email</TableCell>
-                            <TableCell align="right">Phone</TableCell>
+                            <TableCell align="right">County</TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {customers.map((customer) => (
+                        {gyms.map((gym) => (
                             <TableRow
-                                key={customer.id}
+                                key={gym.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell component="th" scope="row">
-                                    {customer.id}
+                                    {gym.id}
                                 </TableCell>
-                                <TableCell align="right">{customer.name}</TableCell>
-                                <TableCell align="right">{customer.address}</TableCell>
-                                <TableCell align="right">{customer.email}</TableCell>
-                                <TableCell align="right">{customer.phone}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="right">{gym.name}</TableCell>
+                                <TableCell align="right">{gym.address}</TableCell>
+                                <TableCell align="right">{gym.county}</TableCell>
 
-                                    <Button variant="contained" color="primary" onClick={() => onEdit(customer)}>
+                                <TableCell align="right">
+                                    <Button variant="contained" color="primary" onClick={() => onEdit(gym)}>
                                         Edit
                                     </Button>
-
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -66,7 +64,7 @@ export default function CustomersTableComponent({customers}) {
             </TableContainer>
 
             {selectedClient && (
-                    <EditCustomerModal
+                    <EditGymModal
                         isOpen={isEditModalOpen}
                         onClose={handleCloseEditModal}
                         clientData={selectedClient}

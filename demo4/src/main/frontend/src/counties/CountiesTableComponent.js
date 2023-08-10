@@ -8,23 +8,39 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Button} from "@mui/material";
 import {useState} from "react";
-import EditCustomerModal from "./EditCustomerModal";
+import EditCountyModal from "./EditCountyModal";
+import DeleteCountyModal from "./DeleteCountyModal";
 
 
-export default function CustomersTableComponent({customers}) {
+export default function CountiesTableComponent({counties}) {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
-    function onEdit(customer) {
-        console.log('Ekana click to customer: ', customer);
-        setSelectedClient(customer);
+    const initialState=[{counties}];
+
+    function onEdit(county) {
+        console.log('Edit county: ', county);
+        setSelectedClient(county);
         setIsEditModalOpen(true);
+    }
+
+    function onDelete(county,id) {
+        console.log('Delete county: ', county);
+        setSelectedClient(county.id);
+        setIsDeleteModalOpen(true);
+
+
     }
 
     const handleCloseEditModal = () => {
         setIsEditModalOpen(false);
     };
+
+    const handleCloseDeleteModal = () => {
+            setIsDeleteModalOpen(false);
+        };
 
     return (
         <React.Fragment>
@@ -34,31 +50,32 @@ export default function CustomersTableComponent({customers}) {
                         <TableRow>
                             <TableCell>Id</TableCell>
                             <TableCell align="right">Name</TableCell>
-                            <TableCell align="right">Address</TableCell>
-                            <TableCell align="right">Email</TableCell>
-                            <TableCell align="right">Phone</TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {customers.map((customer) => (
+                        {counties.map((county) => (
                             <TableRow
-                                key={customer.id}
+                                key={county.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell component="th" scope="row">
-                                    {customer.id}
+                                    {county.id}
                                 </TableCell>
-                                <TableCell align="right">{customer.name}</TableCell>
-                                <TableCell align="right">{customer.address}</TableCell>
-                                <TableCell align="right">{customer.email}</TableCell>
-                                <TableCell align="right">{customer.phone}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="right">{county.name}</TableCell>
 
-                                    <Button variant="contained" color="primary" onClick={() => onEdit(customer)}>
+                                <TableCell align="right">
+                                    <Button variant="contained" color="primary" onClick={() => onEdit(county)}>
                                         Edit
                                     </Button>
-
                                 </TableCell>
+
+                                <TableCell align="left">
+                                    <Button variant="contained" color="primary" onClick={() => onDelete(county.id)}>
+                                        Delete
+                                    </Button>
+                                </TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>
@@ -66,9 +83,18 @@ export default function CustomersTableComponent({customers}) {
             </TableContainer>
 
             {selectedClient && (
-                    <EditCustomerModal
+                    <EditCountyModal
                         isOpen={isEditModalOpen}
                         onClose={handleCloseEditModal}
+                        clientData={selectedClient}
+                    />
+                )}
+
+
+                {selectedClient && (
+                    <DeleteCountyModal
+                        isOpen={isDeleteModalOpen}
+                        onClose={handleCloseDeleteModal}
                         clientData={selectedClient}
                     />
                 )}
