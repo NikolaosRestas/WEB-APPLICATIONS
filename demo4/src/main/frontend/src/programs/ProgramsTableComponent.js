@@ -12,7 +12,6 @@ import EditProgramModal from "./EditProgramModal";
 
 
 export default function ProgramsTableComponent({programs}) {
-
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
 

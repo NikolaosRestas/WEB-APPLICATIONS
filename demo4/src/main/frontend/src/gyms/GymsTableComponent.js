@@ -50,7 +50,7 @@ export default function GymsTableComponent({gyms}) {
                                 </TableCell>
                                 <TableCell align="right">{gym.name}</TableCell>
                                 <TableCell align="right">{gym.address}</TableCell>
-                                <TableCell align="right">{gym.county}</TableCell>
+                                <TableCell align="right">{gym.county.name}</TableCell>
 
                                 <TableCell align="right">
                                     <Button variant="contained" color="primary" onClick={() => onEdit(gym)}>
