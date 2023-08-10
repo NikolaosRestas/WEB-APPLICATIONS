@@ -6,6 +6,7 @@ import CountiesPage from "./counties/counties";
 import GymsPage from "./gyms/gyms";
 import CustomersPage from "./customers/customers";
 import ProgramsPage from "./programs/programs";
+import HomePage from "./home/home";
 import StaffsPage from "./staffs/staffs";
 
 class App extends Component {
@@ -15,7 +16,6 @@ class App extends Component {
             <div>
                 <Navbar/>
                 <Switch>
-                    <Route path="/home" component={CustomersPage} />
                     <Route path="/counties" component={CountiesPage} />
                     <Route path="/gyms" component={GymsPage} />
                     <Route path="/customers" component={CustomersPage} />
