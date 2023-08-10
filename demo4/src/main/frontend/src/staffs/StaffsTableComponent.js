@@ -8,17 +8,17 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Button} from "@mui/material";
 import {useState} from "react";
-import EditCustomerModal from "./EditCustomerModal";
+import EditStaffModal from "./EditStaffModal";
 
 
-export default function CustomersTableComponent({customers}) {
+export default function StaffsTableComponent({staffs}) {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
 
-    function onEdit(customer) {
-        console.log('Ekana click to customer: ', customer);
-        setSelectedClient(customer);
+    function onEdit(staff) {
+        console.log('Ekana click to staff: ', staff);
+        setSelectedClient(staff);
         setIsEditModalOpen(true);
     }
 
@@ -34,30 +34,30 @@ export default function CustomersTableComponent({customers}) {
                         <TableRow>
                             <TableCell>Id</TableCell>
                             <TableCell align="right">Name</TableCell>
-                            <TableCell align="right">Address</TableCell>
-                            <TableCell align="right">Email</TableCell>
+                            <TableCell align="right">Specialty</TableCell>
                             <TableCell align="right">Phone</TableCell>
+                            <TableCell align="right">Gender</TableCell>
+                            <TableCell align="right">Gym</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {customers.map((customer) => (
+                        {staffs.map((staff) => (
                             <TableRow
-                                key={customer.id}
+                                key={staff.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell component="th" scope="row">
-                                    {customer.id}
+                                    {staff.id}
                                 </TableCell>
-                                <TableCell align="right">{customer.name}</TableCell>
-                                <TableCell align="right">{customer.address}</TableCell>
-                                <TableCell align="right">{customer.email}</TableCell>
-                                <TableCell align="right">{customer.phone}</TableCell>
+                                <TableCell align="right">{staff.name}</TableCell>
+                                <TableCell align="right">{staff.specialty}</TableCell>
+                                <TableCell align="right">{staff.phone}</TableCell>
+                                <TableCell align="right">{staff.gender}</TableCell>
+                                <TableCell align="right">{staff.gym}</TableCell>
                                 <TableCell align="right">
-
-                                    <Button variant="contained" color="primary" onClick={() => onEdit(customer)}>
+                                    <Button variant="contained" color="primary" onClick={() => onEdit(staff)}>
                                         Edit
                                     </Button>
-
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -66,7 +66,7 @@ export default function CustomersTableComponent({customers}) {
             </TableContainer>
 
             {selectedClient && (
-                    <EditCustomerModal
+                    <EditStaffModal
                         isOpen={isEditModalOpen}
                         onClose={handleCloseEditModal}
                         clientData={selectedClient}

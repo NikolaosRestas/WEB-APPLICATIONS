@@ -5,7 +5,7 @@ const CustomersPage = () => {
     const [customersData, setCustomersData] = useState([]);
 
     useEffect(() => {
-        // Function to fetch gyms data from the API
+        // Function to fetch customers data from the API
         fetch('/customers')
             .then(response => response.json())
             .then(data => {
