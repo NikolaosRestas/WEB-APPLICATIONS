@@ -1,15 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import GymsTableComponent from "./GymsTableComponent";
+import StaffsTableComponent from "./StaffsTableComponent";
 
-const GymsPage = () => {
-    const [gymsData, setGymsData] = useState([]);
+const StaffsPage = () => {
+    const [staffsData, setStaffsData] = useState([]);
 
     useEffect(() => {
-        // Function to fetch gyms data from the API
-        fetch('/gyms')
+        // Function to fetch program data from the API
+        fetch('/staffs')
             .then(response => response.json())
             .then(data => {
-                setGymsData(data);
+                setStaffsData(data);
             });
 
         return () => {
@@ -22,10 +22,10 @@ const GymsPage = () => {
 
     return (
         <div className="container mx-auto mt-8">
-            <h3 className="text-3xl font-bold mb-4">Gyms</h3>
-            <GymsTableComponent gyms={gymsData}/>
+            <h3 className="text-3xl font-bold mb-4">Staffs</h3>
+            <StaffsTableComponent staffs={staffsData}/>
         </div>
     );
 };
 
-export default GymsPage;
+export default StaffsPage;

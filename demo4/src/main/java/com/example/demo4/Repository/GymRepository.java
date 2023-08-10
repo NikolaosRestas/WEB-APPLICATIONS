@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface GymRepository extends JpaRepository<Gym, Long> {
+
     @Transactional
     @Modifying
     @Query("delete from Gym cust where cust.id = :gymId")

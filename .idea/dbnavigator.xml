@@ -2,7 +2,7 @@
 <project version="4">
   <component name="DBNavigator.Project.DataEditorManager">
     <record-view-column-sorting-type value="BY_INDEX" />
-    <value-preview-text-wrapping value="false" />
+    <value-preview-text-wrapping value="true" />
     <value-preview-pinned value="false" />
   </component>
   <component name="DBNavigator.Project.DatabaseBrowserManager">
@@ -12,7 +12,7 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="6336e8de-eddd-4fdd-9d4a-c92c947692e0">
+    <connection id="a0211a3c-4bcd-4988-b454-de1a3e295908">
       <console name="Connection" type="STANDARD" schema="Application" session="Main" />
     </connection>
   </component>
@@ -28,7 +28,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="6336e8de-eddd-4fdd-9d4a-c92c947692e0" active="true" signed="true">
+      <connection id="a0211a3c-4bcd-4988-b454-de1a3e295908" active="true" signed="true">
         <database>
           <name value="Connection" />
           <description value="" />

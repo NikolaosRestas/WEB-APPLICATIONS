@@ -16,8 +16,11 @@ export default function Navbar() {
                         Gym Management
                     </Typography>
                     <Button color="inherit" className="text-gray-500" component={Link} to="/home">Home</Button>
-                    <Button color="inherit" className="text-gray-500" component={Link} to="/customers">Customer</Button>
+                    <Button color="inherit" className="text-gray-500" component={Link} to="/counties">Counties</Button>
                     <Button color="inherit" className="text-gray-500" component={Link} to="/gyms">Gyms</Button>
+                    <Button color="inherit" className="text-gray-500" component={Link} to="/customers">Customers</Button>
+                    <Button color="inherit" className="text-gray-500" component={Link} to="/programs">Programs</Button>
+                    <Button color="inherit" className="text-gray-500" component={Link} to="/staffs">Staffs</Button>
                 </Toolbar>
             </AppBar>
         </div>
