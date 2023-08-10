@@ -32,6 +32,7 @@ public class CountyService {
     }
 
     public County insertCounty(County county) {
+        county.setId(null);
         return countyRepository.save(county);
     }
 

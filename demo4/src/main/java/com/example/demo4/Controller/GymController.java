@@ -9,18 +9,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:3000"})
 @RequestMapping("/gyms")
 public class GymController {
     private final GymService gymService;
 
-    public GymController(GymService gymService){
+    public GymController(GymService gymService) {
         this.gymService = gymService;
     }
 
     @GetMapping
-    public List<Gym> getGyms(GymService gymservice){
-        return gymservice.getAllGyms();
+    public List<Gym> getGyms() {
+        return gymService.getAllGyms();
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Gym> getGym(@PathVariable("id") Long id) {
         return new ResponseEntity<>(gymService.findGymById(id), HttpStatus.OK);
@@ -39,9 +41,10 @@ public class GymController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Gym> updateGym(@RequestBody Gym gym) {
+    public ResponseEntity<Gym> updateGym(@RequestBody Gym gym, @PathVariable("id") long id) {
+        gym.setId(id);
         Gym updatedGym = gymService.updateGym(gym);
         return new ResponseEntity<>(updatedGym, HttpStatus.OK);
-
     }
+
 }

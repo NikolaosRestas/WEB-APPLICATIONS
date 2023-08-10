@@ -8,17 +8,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {Button} from "@mui/material";
 import {useState} from "react";
-import EditCustomerModal from "./EditCustomerModal";
+import EditProgramModal from "./EditProgramModal";
 
 
-export default function CustomersTableComponent({customers}) {
-
+export default function ProgramsTableComponent({programs}) {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
 
-    function onEdit(customer) {
-        console.log('Ekana click to customer: ', customer);
-        setSelectedClient(customer);
+    function onEdit(program) {
+        console.log('Ekana click to program: ', program);
+        setSelectedClient(program);
         setIsEditModalOpen(true);
     }
 
@@ -33,31 +32,29 @@ export default function CustomersTableComponent({customers}) {
                     <TableHead>
                         <TableRow>
                             <TableCell>Id</TableCell>
-                            <TableCell align="right">Name</TableCell>
-                            <TableCell align="right">Address</TableCell>
-                            <TableCell align="right">Email</TableCell>
-                            <TableCell align="right">Phone</TableCell>
+                            <TableCell align="right">Duration</TableCell>
+                            <TableCell align="right">Price</TableCell>
+                            <TableCell align="right">Customers</TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {customers.map((customer) => (
+                        {programs.map((program) => (
                             <TableRow
-                                key={customer.id}
+                                key={program.id}
                                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell component="th" scope="row">
-                                    {customer.id}
+                                    {program.id}
                                 </TableCell>
-                                <TableCell align="right">{customer.name}</TableCell>
-                                <TableCell align="right">{customer.address}</TableCell>
-                                <TableCell align="right">{customer.email}</TableCell>
-                                <TableCell align="right">{customer.phone}</TableCell>
-                                <TableCell align="right">
+                                <TableCell align="right">{program.duration}</TableCell>
+                                <TableCell align="right">{program.price}</TableCell>
+                                <TableCell align="right">{program.customers}</TableCell>
 
-                                    <Button variant="contained" color="primary" onClick={() => onEdit(customer)}>
+                                <TableCell align="right">
+                                    <Button variant="contained" color="primary" onClick={() => onEdit(program)}>
                                         Edit
                                     </Button>
-
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -66,7 +63,7 @@ export default function CustomersTableComponent({customers}) {
             </TableContainer>
 
             {selectedClient && (
-                    <EditCustomerModal
+                    <EditProgramModal
                         isOpen={isEditModalOpen}
                         onClose={handleCloseEditModal}
                         clientData={selectedClient}
