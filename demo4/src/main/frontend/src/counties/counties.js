@@ -1,62 +1,63 @@
-import React, {useEffect, useState} from 'react';
-import CountiesTableComponent from "./CountiesTableComponent";
-import {Button} from "@mui/material";
-import NewCountyModal from "./NewCountyModal";
+import React, { useEffect, useState } from 'react';
+import CountiesTableComponent from './CountiesTableComponent';
+import { Button } from '@mui/material';
+import NewCountyModal from './NewCountyModal';
+import Loader from "../loader/loader";
 
 const CountiesPage = () => {
     const [countiesData, setCountiesData] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
     const [isNewCountyModalOpen, setNewCountyModalOpen] = useState(false);
 
     useEffect(() => {
-        // Function to fetch counties data from the API
         fetch('/counties')
             .then(response => response.json())
             .then(data => {
                 setCountiesData(data);
+                setIsLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching counties:', error);
+                setIsLoading(false); // Ensure loading state is updated even on error
             });
+    }, []);
 
-        return () => {
-            // Any cleanup code can go here
-        };
-    }, []); // Empty dependency array means this effect runs only once when the component mounts
-
-    useEffect(() => {
-        console.log('Meta to add!!!! : ',countiesData);
-        setCountiesData(countiesData); // Update local state when the clientData prop changes
-    }, [countiesData]);
-
-    function newCounty() {
+    const newCounty = () => {
         setNewCountyModalOpen(true);
-    }
+    };
 
     const handleCloseNewCountyModal = () => {
         setNewCountyModalOpen(false);
     };
 
-    const updateCounties = (county) => {
-        countiesData.push(county);
-        console.log('Meta to add : ',countiesData);
-        setCountiesData(countiesData);
+    const handleSaveNewCounty = county => {
+        setCountiesData(prevCounties => [...prevCounties, county]);
+        handleCloseNewCountyModal();
     };
 
     return (
-        <div>
-            <div className="relative container mx-auto mt-8 w-100">
+        <div className="flex justify-center">
+            <div className="container mx-4 mt-8 w-full max-w-screen-lg">
                 <h3 className="text-3xl font-bold mb-4">Counties</h3>
-                <div className="absolute inset-x-0 top-0 h-16 ">
-                    <Button variant="contained" color="primary"
-                            onClick={() => newCounty()}>
-                        New County!
+
+                <div className="text-right mb-4">
+                    <Button variant="contained" color="primary" onClick={newCounty}>
+                        New County
                     </Button>
                 </div>
-                <CountiesTableComponent counties={countiesData} onChange={setCountiesData}/>
+
+                {isLoading ? (
+                    <Loader />
+                ) : (
+                    <CountiesTableComponent counties={countiesData} onChange={setCountiesData} />
+                )}
             </div>
 
             {isNewCountyModalOpen && (
                 <NewCountyModal
                     isOpen={isNewCountyModalOpen}
                     onClose={handleCloseNewCountyModal}
-                    onSave={updateCounties}
+                    onSave={handleSaveNewCounty}
                 />
             )}
         </div>

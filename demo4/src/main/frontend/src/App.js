@@ -6,7 +6,6 @@ import CountiesPage from "./counties/counties";
 import GymsPage from "./gyms/gyms";
 import CustomersPage from "./customers/customers";
 import ProgramsPage from "./programs/programs";
-import HomePage from "./home/home";
 import StaffsPage from "./staffs/staffs";
 
 class App extends Component {
