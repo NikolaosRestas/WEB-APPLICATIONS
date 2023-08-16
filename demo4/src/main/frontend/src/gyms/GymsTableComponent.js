@@ -11,19 +11,19 @@ import {useState} from "react";
 import EditGymModal from "./EditGymModal";
 
 
-export default function GymsTableComponent({gyms,onChange}) {
+export default function GymsTableComponent({gyms, onChange}) {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
-    const [selectedClient, setSelectedClient] = useState(null);
+    const [selectedGym, setSelectedGym] = useState(null);
     const [isSuccessfulDelete, setIsSuccessfulDelete] = useState(false);
 
     function onEdit(gym) {
         console.log('Edit gym: ', gym);
-        setSelectedClient(gym);
+        setSelectedGym(gym);
         setIsEditModalOpen(true);
     }
 
-     function onDelete(gym) {
+    function onDelete(gym) {
         console.log('I am going to delete gym: ', gym);
         fetch(`/gyms/${gym.id}`,
             {
@@ -58,6 +58,7 @@ export default function GymsTableComponent({gyms,onChange}) {
                             <TableCell align="right">Name</TableCell>
                             <TableCell align="right">Address</TableCell>
                             <TableCell align="right">County</TableCell>
+                            <TableCell align="right">Actions</TableCell>
 
                         </TableRow>
                     </TableHead>
@@ -78,9 +79,7 @@ export default function GymsTableComponent({gyms,onChange}) {
                                     <Button variant="contained" color="primary" onClick={() => onEdit(gym)}>
                                         Edit
                                     </Button>
-                                </TableCell>
-
-                                <TableCell align="left">
+                                    <span className="inline-block w-4"></span> {/* This creates space */}
                                     <Button variant="contained" color="primary"
                                             onClick={() => onDelete(gym, gyms)}>
                                         Delete
@@ -93,19 +92,20 @@ export default function GymsTableComponent({gyms,onChange}) {
                 </Table>
             </TableContainer>
 
-            {selectedClient && (
-                    <EditGymModal
-                        isOpen={isEditModalOpen}
-                        onClose={handleCloseEditModal}
-                        clientData={selectedClient}
-                    />
-                )}
+            {selectedGym && (
+                <EditGymModal
+                    isOpen={isEditModalOpen}
+                    onClose={handleCloseEditModal}
+                    clientData={selectedGym}
+                    onSave={onChange}
+                />
+            )}
 
-                <div className="relative h-32 flex flex-nowrap">
-                    <div className="absolute inset-x-0 bottom-0 h-16 flex flex-nowrap">
-                        {(isSuccessfulDelete === true) && <Alert severity="success">The gym deleted successful!</Alert>}
-                    </div>
+            <div className="relative h-32 flex flex-nowrap">
+                <div className="absolute inset-x-0 bottom-0 h-16 flex flex-nowrap">
+                    {(isSuccessfulDelete === true) && <Alert severity="success">The gym deleted successful!</Alert>}
                 </div>
+            </div>
         </React.Fragment>
     );
 }

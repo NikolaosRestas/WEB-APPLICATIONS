@@ -83,6 +83,14 @@ export default function NewCustomerModal({isOpen, onClose, onSave}) {
                         fullWidth
                         margin="normal"
                     />
+                    <TextField
+                        label="Gym"
+                        name="gymId"
+                        value={customer.gymId}
+                        onChange={(e) => handleInputChange(e)}
+                        fullWidth
+                        margin="normal"
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancel}>Cancel</Button>

@@ -1,9 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
+import {
+    Alert,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    MenuItem,
+    Select,
+    TextField
+} from '@mui/material';
 
 export default function NewGymModal({isOpen, onClose, onSave}) {
     const [gym, setGym] = useState({name: ""});
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const [countiesData, setCountiesData] = useState([]);
+
+    useEffect(() => {
+        fetch('/counties')
+            .then(response => response.json())
+            .then(data => {
+                setCountiesData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching counties:', error);
+            });
+    }, []);
 
     useEffect(() => {
         setGym({...gym}); // Update local state when the clientData prop changes
@@ -69,14 +91,22 @@ export default function NewGymModal({isOpen, onClose, onSave}) {
                         margin="normal"
                     />
 
-                    <TextField
+                    <Select
                         label="County"
-                        name="county"
-                        value={gym.county}
+                        name="countyId"
+                        value={gym.countyId || 'default'}
                         onChange={(e) => handleInputChange(e)}
                         fullWidth
                         margin="normal"
-                    />
+                    >
+                        <MenuItem value="default" disabled>Select a County</MenuItem>
+                        {
+                            countiesData.map((county) => (
+                                <MenuItem key={county.id} value={county.id}> {county.name} </MenuItem>))
+                        }
+                    </Select>
+
+
                 </DialogContent>
 
                 <DialogActions>

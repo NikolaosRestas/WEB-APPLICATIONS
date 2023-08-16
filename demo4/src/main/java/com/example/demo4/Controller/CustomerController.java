@@ -1,6 +1,7 @@
 package com.example.demo4.Controller;
 
 import com.example.demo4.Model.Customer;
+import com.example.demo4.Model.dto.CustomerRequestDto;
 import com.example.demo4.Service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class CustomerController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Customer> addCustomer(@RequestBody Customer customer) {
+    public ResponseEntity<Customer> addCustomer(@RequestBody CustomerRequestDto customer) {
         final Customer createdCustomer = customerService.insertCustomer(customer);
         return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
     }

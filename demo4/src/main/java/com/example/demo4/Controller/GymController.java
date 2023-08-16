@@ -1,6 +1,7 @@
 package com.example.demo4.Controller;
 
 import com.example.demo4.Model.Gym;
+import com.example.demo4.Model.dto.GymRequestDto;
 import com.example.demo4.Service.GymService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class GymController {
     }
 
     @GetMapping
-    public List<Gym> getGyms() {
+    public List<Gym> getGyms(@RequestParam(value = "countyId", required = false) Long countyId) {
         return gymService.getAllGyms();
     }
 
@@ -29,7 +30,7 @@ public class GymController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Gym> addGym(@RequestBody Gym gym) {
+    public ResponseEntity<Gym> addGym(@RequestBody GymRequestDto gym) {
         final Gym createdGym = gymService.insertGym(gym);
         return new ResponseEntity<>(createdGym, HttpStatus.CREATED);
     }
@@ -41,9 +42,8 @@ public class GymController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Gym> updateGym(@RequestBody Gym gym, @PathVariable("id") long id) {
-        gym.setId(id);
-        Gym updatedGym = gymService.updateGym(gym);
+    public ResponseEntity<Gym> updateGym(@RequestBody GymRequestDto gym, @PathVariable("id") long id) {
+        Gym updatedGym = gymService.updateGym(gym, id);
         return new ResponseEntity<>(updatedGym, HttpStatus.OK);
     }
 

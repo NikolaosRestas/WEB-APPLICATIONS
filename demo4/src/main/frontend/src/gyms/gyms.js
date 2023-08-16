@@ -34,21 +34,24 @@ const GymsPage = () => {
     };
 
     const updateGyms = (gym) => {
-        gymsData.push(gym);
-        console.log('Meta to add : ',gymsData);
-        setGymsData(gymsData);
+        console.log('GYM: ', gym);
+        console.log('GYMs: ', gymsData);
+
+        setGymsData(prevGyms => [...prevGyms, gym]);
+        console.log('GYMs meta: ', gymsData);
+
     };
 
     return (
 
-        <div>
-            <div className="relative container mx-auto mt-8 w-100">
+        <div className="flex justify-center">
+            <div className="container mx-4 mt-8 w-full max-w-screen-lg">
                 <h3 className="text-3xl font-bold mb-4">Gyms</h3>
 
-                <div className="absolute inset-x-0 top-0 h-16 ">
+                <div className="text-right mb-4">
                     <Button variant="contained" color="primary"
                             onClick={() => newGym()}>
-                        New Gym!
+                        New Gym
                     </Button>
                 </div>
 
