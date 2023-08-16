@@ -6,19 +6,40 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Button} from "@mui/material";
+import {Alert,Button} from "@mui/material";
 import {useState} from "react";
 import EditProgramModal from "./EditProgramModal";
 
 
-export default function ProgramsTableComponent({programs}) {
+export default function ProgramsTableComponent({programs,onChange}) {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
+    const [isSuccessfulDelete, setIsSuccessfulDelete] = useState(false);
 
     function onEdit(program) {
-        console.log('Ekana click to program: ', program);
+        console.log('Edit program: ', program);
         setSelectedClient(program);
         setIsEditModalOpen(true);
+    }
+
+    function onDelete(program) {
+        console.log('I am going to delete county: ', program);
+        fetch(`/programs/${program.id}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    setIsSuccessfulDelete(true);
+                    setTimeout(() => {
+                        setIsSuccessfulDelete(false);
+                    }, 5000);
+                    onChange(programs.filter(c => c.id !== program.id));
+                }
+            });
     }
 
     const handleCloseEditModal = () => {
@@ -56,6 +77,14 @@ export default function ProgramsTableComponent({programs}) {
                                         Edit
                                     </Button>
                                 </TableCell>
+
+                                <TableCell align="left">
+                                    <Button variant="contained" color="primary"
+                                            onClick={() => onDelete(program, programs)}>
+                                        Delete
+                                    </Button>
+                                </TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>
@@ -69,6 +98,11 @@ export default function ProgramsTableComponent({programs}) {
                         clientData={selectedClient}
                     />
                 )}
+               <div className="relative h-32 flex flex-nowrap">
+                    <div className="absolute inset-x-0 bottom-0 h-16 flex flex-nowrap">
+                        {(isSuccessfulDelete === true) && <Alert severity="success">The program deleted successful!</Alert>}
+                    </div>
+                </div>
         </React.Fragment>
     );
 }

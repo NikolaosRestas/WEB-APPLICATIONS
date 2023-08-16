@@ -6,20 +6,41 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Button} from "@mui/material";
+import {Alert,Button} from "@mui/material";
 import {useState} from "react";
 import EditStaffModal from "./EditStaffModal";
 
 
-export default function StaffsTableComponent({staffs}) {
+export default function StaffsTableComponent({staffs,onChange}) {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
+    const [isSuccessfulDelete, setIsSuccessfulDelete] = useState(false);
 
     function onEdit(staff) {
-        console.log('Ekana click to staff: ', staff);
+        console.log('Edit staff: ', staff);
         setSelectedClient(staff);
         setIsEditModalOpen(true);
+    }
+
+    function onDelete(staff) {
+        console.log('I am going to delete staff: ', staff);
+        fetch(`/staffs/${staff.id}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    setIsSuccessfulDelete(true);
+                    setTimeout(() => {
+                        setIsSuccessfulDelete(false);
+                    }, 5000);
+                    onChange(staffs.filter(c => c.id !== staff.id));
+                }
+            });
     }
 
     const handleCloseEditModal = () => {
@@ -59,6 +80,13 @@ export default function StaffsTableComponent({staffs}) {
                                         Edit
                                     </Button>
                                 </TableCell>
+
+                                <TableCell align="left">
+                                    <Button variant="contained" color="primary"
+                                            onClick={() => onDelete(staff, staffs)}>
+                                        Delete
+                                    </Button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
@@ -72,6 +100,13 @@ export default function StaffsTableComponent({staffs}) {
                         clientData={selectedClient}
                     />
                 )}
+
+                <div className="relative h-32 flex flex-nowrap">
+                <div className="absolute inset-x-0 bottom-0 h-16 flex flex-nowrap">
+                    {(isSuccessfulDelete === true) && <Alert severity="success">The staff deleted successful!</Alert>}
+                </div>
+            </div>
+
         </React.Fragment>
     );
 }
