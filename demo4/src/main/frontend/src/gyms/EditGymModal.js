@@ -1,9 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Alert} from '@mui/material';
+import {
+    Alert,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    MenuItem,
+    Select,
+    TextField
+} from '@mui/material';
 
 export default function EditGymModal({isOpen, onClose, clientData, onSave}) {
     const [editedData, setEditedData] = useState({...clientData});
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const [countiesData, setCountiesData] = useState([]);
+
+    useEffect(() => {
+        fetch('/counties')
+            .then(response => response.json())
+            .then(data => {
+                setCountiesData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching counties:', error);
+            });
+    }, []);
 
     useEffect(() => {
         setEditedData({...clientData}); // Update local state when the clientData prop changes
@@ -13,6 +35,7 @@ export default function EditGymModal({isOpen, onClose, clientData, onSave}) {
         clientData.name = editedData.name;
         clientData.address = editedData.address;
         clientData.county = editedData.county;
+        clientData.countyId = editedData.countyId;
 
 
         fetch(`/gyms/${clientData.id}`,
@@ -33,8 +56,6 @@ export default function EditGymModal({isOpen, onClose, clientData, onSave}) {
             .catch((error) => {
                 console.error('Error while calling the API:', error);
             });
-
-        console.log("Save changes:", clientData);
         onClose(); // Close the modal after saving (you can modify this based on your requirements).
     };
 
@@ -48,6 +69,15 @@ export default function EditGymModal({isOpen, onClose, clientData, onSave}) {
             ...prevData,
             [name]: value,
         }));
+        if (name === 'countyId') {
+            let county = countiesData.find(c => c.id === value);
+            console.log('county: ', county);
+            setEditedData((prevData) => ({
+                ...prevData,
+                ['county']: county,
+            }));
+        }
+
     };
 
     return (
@@ -71,14 +101,19 @@ export default function EditGymModal({isOpen, onClose, clientData, onSave}) {
                         fullWidth
                         margin="normal"
                     />
-                    <TextField
+                    <Select
                         label="County"
-                        name="county"
-                        value={editedData.county}
+                        name="countyId"
+                        value={editedData.countyId || editedData.county.id}
                         onChange={(e) => handleInputChange(e)}
                         fullWidth
                         margin="normal"
-                    />
+                    >
+                        {
+                            countiesData.map((county) => (
+                                <MenuItem key={county.id} value={county.id}> {county.name} </MenuItem>))
+                        }
+                    </Select>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancel}>Cancel</Button>

@@ -1,6 +1,8 @@
 package com.example.demo4.Service;
 
+import com.example.demo4.Model.County;
 import com.example.demo4.Model.Gym;
+import com.example.demo4.Model.dto.GymRequestDto;
 import com.example.demo4.Repository.GymRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -8,9 +10,11 @@ import java.util.List;
 @Service
 public class GymService {
     private final GymRepository gymRepository;
+    private final CountyService countyService;
 
-    public GymService(GymRepository gymRepository) {
+    public GymService(GymRepository gymRepository, CountyService countyService) {
         this.gymRepository = gymRepository;
+        this.countyService = countyService;
     }
 
     public List<Gym> getAllGyms() {
@@ -30,15 +34,22 @@ public class GymService {
         return true;
     }
 
-    public Gym insertGym(Gym gym) {
+    public Gym insertGym(GymRequestDto gymRequestDto) {
+        final County county = countyService.findCountyById(gymRequestDto.getCountyId());
+        final Gym gym = Gym.builder()
+                .id(null)
+                .name(gymRequestDto.getName())
+                .address(gymRequestDto.getAddress())
+                .county(county).build();
         return gymRepository.save(gym);
     }
 
-    public Gym updateGym(Gym gym) {
-        Gym savedGym = findGymById(gym.getId());
-        savedGym.setName(gym.getName());
-        savedGym.setAddress(gym.getAddress());
-        savedGym.setCounty(gym.getCounty());
+    public Gym updateGym(GymRequestDto gymRequestDto, long id) {
+        final Gym savedGym = findGymById(id);
+        savedGym.setName(gymRequestDto.getName());
+        savedGym.setAddress(gymRequestDto.getAddress());
+        final County county = countyService.findCountyById(gymRequestDto.getCountyId());
+        savedGym.setCounty(county);
         return gymRepository.save(savedGym);
     }
 }

@@ -58,6 +58,7 @@ export default function CustomersTableComponent({customers,onChange}) {
                             <TableCell align="right">Address</TableCell>
                             <TableCell align="right">Email</TableCell>
                             <TableCell align="right">Phone</TableCell>
+                            <TableCell align="right">Gym</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -73,6 +74,7 @@ export default function CustomersTableComponent({customers,onChange}) {
                                 <TableCell align="right">{customer.address}</TableCell>
                                 <TableCell align="right">{customer.email}</TableCell>
                                 <TableCell align="right">{customer.phone}</TableCell>
+                                <TableCell align="right">{customer.gym.name}</TableCell>
                                 <TableCell align="right">
 
                                     <Button variant="contained" color="primary" onClick={() => onEdit(customer)}>
