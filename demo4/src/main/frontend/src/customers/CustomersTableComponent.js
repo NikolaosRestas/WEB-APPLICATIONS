@@ -6,20 +6,41 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Button} from "@mui/material";
+import {Alert,Button} from "@mui/material";
 import {useState} from "react";
 import EditCustomerModal from "./EditCustomerModal";
 
 
-export default function CustomersTableComponent({customers}) {
+export default function CustomersTableComponent({customers,onChange}) {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
+    const [isSuccessfulDelete, setIsSuccessfulDelete] = useState(false);
 
     function onEdit(customer) {
-        console.log('Ekana click to customer: ', customer);
+        console.log('Edit customer: ', customer);
         setSelectedClient(customer);
         setIsEditModalOpen(true);
+    }
+
+    function onDelete(customer) {
+        console.log('I am going to delete customer: ', customer);
+        fetch(`/customers/${customer.id}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    setIsSuccessfulDelete(true);
+                    setTimeout(() => {
+                        setIsSuccessfulDelete(false);
+                    }, 5000);
+                    onChange(customers.filter(c => c.id !== customer.id));
+                }
+            });
     }
 
     const handleCloseEditModal = () => {
@@ -57,8 +78,16 @@ export default function CustomersTableComponent({customers}) {
                                     <Button variant="contained" color="primary" onClick={() => onEdit(customer)}>
                                         Edit
                                     </Button>
-
                                 </TableCell>
+
+                                 <TableCell align="left">
+                                    <Button variant="contained" color="primary"
+                                            onClick={() => onDelete(customer, customers)}>
+                                        Delete
+                                    </Button>
+                                </TableCell>
+
+
                             </TableRow>
                         ))}
                     </TableBody>
@@ -72,6 +101,12 @@ export default function CustomersTableComponent({customers}) {
                         clientData={selectedClient}
                     />
                 )}
+
+                <div className="relative h-32 flex flex-nowrap">
+                    <div className="absolute inset-x-0 bottom-0 h-16 flex flex-nowrap">
+                        {(isSuccessfulDelete === true) && <Alert severity="success">The customer deleted successful!</Alert>}
+                    </div>
+                </div>
         </React.Fragment>
     );
 }

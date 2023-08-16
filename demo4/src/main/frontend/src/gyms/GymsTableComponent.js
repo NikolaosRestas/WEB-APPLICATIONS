@@ -6,21 +6,43 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {Button} from "@mui/material";
+import {Alert, Button} from "@mui/material";
 import {useState} from "react";
 import EditGymModal from "./EditGymModal";
 
 
-export default function GymsTableComponent({gyms}) {
+export default function GymsTableComponent({gyms,onChange}) {
 
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [selectedClient, setSelectedClient] = useState(null);
+    const [isSuccessfulDelete, setIsSuccessfulDelete] = useState(false);
 
     function onEdit(gym) {
-        console.log('Ekana click to gym: ', gym);
+        console.log('Edit gym: ', gym);
         setSelectedClient(gym);
         setIsEditModalOpen(true);
     }
+
+     function onDelete(gym) {
+        console.log('I am going to delete gym: ', gym);
+        fetch(`/gyms/${gym.id}`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => {
+                if (response.ok) {
+                    setIsSuccessfulDelete(true);
+                    setTimeout(() => {
+                        setIsSuccessfulDelete(false);
+                    }, 5000);
+                    onChange(gyms.filter(c => c.id !== gym.id));
+                }
+            });
+    }
+
 
     const handleCloseEditModal = () => {
         setIsEditModalOpen(false);
@@ -57,6 +79,14 @@ export default function GymsTableComponent({gyms}) {
                                         Edit
                                     </Button>
                                 </TableCell>
+
+                                <TableCell align="left">
+                                    <Button variant="contained" color="primary"
+                                            onClick={() => onDelete(gym, gyms)}>
+                                        Delete
+                                    </Button>
+                                </TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>
@@ -70,6 +100,12 @@ export default function GymsTableComponent({gyms}) {
                         clientData={selectedClient}
                     />
                 )}
+
+                <div className="relative h-32 flex flex-nowrap">
+                    <div className="absolute inset-x-0 bottom-0 h-16 flex flex-nowrap">
+                        {(isSuccessfulDelete === true) && <Alert severity="success">The gym deleted successful!</Alert>}
+                    </div>
+                </div>
         </React.Fragment>
     );
 }
