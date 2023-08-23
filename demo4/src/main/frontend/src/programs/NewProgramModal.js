@@ -1,10 +1,23 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, MenuItem, Select} from '@mui/material';
+import {
+    Alert,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    MenuItem,
+    Select,
+    OutlinedInput,
+    Checkbox, InputLabel
+} from '@mui/material';
 
 export default function NewProgramModal({isOpen, onClose, onSave}) {
     const [program, setProgram] = useState({name: ""});
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
     const [customersData, setCustomersData] = useState([]);
+    const [selectedCustomers, setSelectedCustomers] = useState([]);
 
     useEffect(() => {
         fetch('/customers')
@@ -58,6 +71,14 @@ export default function NewProgramModal({isOpen, onClose, onSave}) {
         }));
     };
 
+    const handleCustomerSelectChange = (event) => {
+        setSelectedCustomers(event.target.value);
+        setProgram((prevData) => ({
+            ...prevData,
+            customerIds: event.target.value,
+        }));
+    };
+
     return (
         <React.Fragment>
             <Dialog open={isOpen} onClose={onClose}>
@@ -87,20 +108,27 @@ export default function NewProgramModal({isOpen, onClose, onSave}) {
                         fullWidth
                         margin="normal"
                     />
-                    <Select
-                        label="Customer"
-                        name="customerId"
-                        value={program.customerId || 'default'}
-                        onChange={(e) => handleInputChange(e)}
-                        fullWidth
-                        margin="normal"
-                    >
-                        <MenuItem value="default" disabled>Select a Customer</MenuItem>
-                        {
-                            customersData.map((customer) => (
-                                <MenuItem key={customer.id} value={customer.id}> {customer.name} </MenuItem>))
-                        }
-                    </Select>
+                    <div>
+                        <InputLabel id="demo-multiple-name-label">Customers</InputLabel>
+                        <Select
+                            label="Customer"
+                            name="customerId"
+                            value={selectedCustomers}
+                            onChange={handleCustomerSelectChange}
+                            multiple
+                            input={<OutlinedInput label="Customer"/>}
+                            fullWidth
+                            margin="normal"
+                        >
+                            {customersData.map((customer) => (
+                                <MenuItem key={customer.id} value={customer.id}>
+                                    <Checkbox checked={selectedCustomers.includes(customer.id)}/>
+                                    {customer.name}
+                                </MenuItem>
+                            ))
+                            }
+                        </Select>
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancel}>Cancel</Button>

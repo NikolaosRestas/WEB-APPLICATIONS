@@ -58,7 +58,6 @@ export default function ProgramsTableComponent({programs, onChange}) {
                             <TableCell align="right">Kind</TableCell>
                             <TableCell align="right">Duration</TableCell>
                             <TableCell align="right">Price</TableCell>
-                            <TableCell align="right">Gym</TableCell>
                             <TableCell align="right">Actions</TableCell>
 
                         </TableRow>
@@ -75,7 +74,6 @@ export default function ProgramsTableComponent({programs, onChange}) {
                                 <TableCell align="right">{program.kind}</TableCell>
                                 <TableCell align="right">{program.duration}</TableCell>
                                 <TableCell align="right">{program.price}</TableCell>
-                                <TableCell align="right">{program.customer.name}</TableCell>
 
                                 <TableCell align="right">
                                     <Button variant="contained" color="primary" onClick={() => onEdit(program)}>
