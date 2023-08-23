@@ -5,6 +5,8 @@ import com.example.demo4.Model.Gym;
 import com.example.demo4.Model.dto.GymRequestDto;
 import com.example.demo4.Repository.GymRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -51,5 +53,10 @@ public class GymService {
         final County county = countyService.findCountyById(gymRequestDto.getCountyId());
         savedGym.setCounty(county);
         return gymRepository.save(savedGym);
+    }
+
+    public List<Gym> search() {
+        /*return gymRepository.findAllById(Collections.singleton(countyId));*/
+        return gymRepository.findAll();
     }
 }

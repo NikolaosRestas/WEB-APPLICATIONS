@@ -8,7 +8,7 @@ const ProgramsPage = () => {
     const [isNewProgramModalOpen, setNewProgramModalOpen] = useState(false);
 
     useEffect(() => {
-        // Function to fetch programs data from the API
+        // Function to fetch gyms data from the API
         fetch('/programs')
             .then(response => response.json())
             .then(data => {
@@ -34,23 +34,31 @@ const ProgramsPage = () => {
     };
 
     const updatePrograms = (program) => {
-        programsData.push(program);
-        console.log('Meta to add : ',programsData);
-        setProgramsData(programsData);
+        console.log('PROGRAM: ', program);
+        console.log('PROGRAMS: ', programsData);
+
+        setProgramsData(prevPrograms => [...prevPrograms, program]);
+        console.log('PROGRAMS meta: ', programsData);
+
     };
 
     return (
-        <div>
-            <div className="relative container mx-auto mt-8 w-100">
+
+        <div className="flex justify-center">
+            <div className="container mx-4 mt-8 w-full max-w-screen-lg">
                 <h3 className="text-3xl font-bold mb-4">Programs</h3>
-                <div className="absolute inset-x-0 top-0 h-16 ">
+
+                <div className="text-right mb-4">
                     <Button variant="contained" color="primary"
                             onClick={() => newProgram()}>
-                        New Program!
+                        New Program
                     </Button>
                 </div>
+
                 <ProgramsTableComponent programs={programsData} onChange={setProgramsData}/>
             </div>
+
+
 
             {isNewProgramModalOpen && (
                 <NewProgramModal
@@ -60,6 +68,7 @@ const ProgramsPage = () => {
                 />
             )}
         </div>
+
     );
 };
 

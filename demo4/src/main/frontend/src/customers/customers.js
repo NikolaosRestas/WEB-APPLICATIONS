@@ -34,23 +34,27 @@ const CustomersPage = () => {
     };
 
     const updateCustomers = (customer) => {
-        customersData.push(customer);
-        console.log('Meta to add : ',customersData);
-        setCustomersData(customersData);
+        console.log('Customers : ',customer);
+        console.log('Customers: ',customersData);
+
+        setCustomersData(prevCustomers=>[...prevCustomers,customer]);
+        console.log('Customers meta: ', customersData);
     };
 
     return (
-        <div>
-            <div className="relative container mx-auto mt-8 w-100">
-                <h3 className="text-3xl font-bold mb-4">Customers</h3>
-                <div className="absolute inset-x-0 top-0 h-16 ">
-                    <Button variant="contained" color="primary"
-                            onClick={() => newCustomer()}>
-                        New Customer!
-                    </Button>
-                </div>
-                <CustomersTableComponent customers={customersData} onChange={setCustomersData}/>
-            </div>
+       <div className="flex justify-center">
+                   <div className="container mx-4 mt-8 w-full max-w-screen-lg">
+                       <h3 className="text-3xl font-bold mb-4">Customers</h3>
+
+                       <div className="text-right mb-4">
+                           <Button variant="contained" color="primary"
+                                   onClick={() => newCustomer()}>
+                               New Customer
+                           </Button>
+                       </div>
+
+                       <CustomersTableComponent customers={customersData} onChange={setCustomersData}/>
+                   </div>
 
             {isNewCustomerModalOpen && (
                 <NewCustomerModal

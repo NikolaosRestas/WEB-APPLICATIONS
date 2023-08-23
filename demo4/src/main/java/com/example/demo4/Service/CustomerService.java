@@ -5,17 +5,21 @@ import com.example.demo4.Model.Customer;
 import com.example.demo4.Model.Gym;
 import com.example.demo4.Model.dto.CustomerRequestDto;
 import com.example.demo4.Repository.CustomerRepository;
-import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final GymService gymService;
+
+    public CustomerService(CustomerRepository customerRepository,GymService gymService){
+        this.customerRepository = customerRepository;
+        this.gymService = gymService;
+
+    }
 
     public List<Customer> getAllCustomers() {
         return this.customerRepository.findAll();
@@ -46,13 +50,13 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
-    public Customer updateCustomer(Customer customer) {
-        Customer savedCustomer = findCustomerById(customer.getId());
-        savedCustomer.setGym(customer.getGym());
-        savedCustomer.setName(customer.getName());
-        savedCustomer.setAddress(customer.getAddress());
-        savedCustomer.setEmail(customer.getEmail());
-        savedCustomer.setPhone(customer.getPhone());
+    public Customer updateCustomer(CustomerRequestDto customerRequestDto, long id) {
+        final Customer savedCustomer = findCustomerById(id);
+        savedCustomer.setName(customerRequestDto.getName());
+        savedCustomer.setAddress(customerRequestDto.getAddress());
+        savedCustomer.setEmail(customerRequestDto.getEmail());
+        savedCustomer.setPhone(customerRequestDto.getPhone());
+        final Gym gym = gymService.findGymById(customerRequestDto.getGymId());
         return customerRepository.save(savedCustomer);
     }
 }
