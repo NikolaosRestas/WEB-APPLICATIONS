@@ -1,6 +1,7 @@
 package com.example.demo4.Controller;
 
 import com.example.demo4.Model.Program;
+import com.example.demo4.Model.dto.ProgramRequestDto;
 import com.example.demo4.Service.GymProgramService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class GymProgramController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Program> addProgram(@RequestBody Program program) {
+    public ResponseEntity<Program> addProgram(@RequestBody ProgramRequestDto program) {
         final Program createdProgram = programService.insertProgram(program);
         return new ResponseEntity<>(createdProgram, HttpStatus.CREATED);
     }
@@ -41,8 +42,8 @@ public class GymProgramController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Program> updateProgram(@RequestBody Program program) {
-        Program updatedProgram = programService.updateProgram(program);
+    public ResponseEntity<Program> updateProgram(@RequestBody ProgramRequestDto program,@PathVariable("id")long id) {
+        Program updatedProgram = programService.updateProgram(program,id);
         return new ResponseEntity<>(updatedProgram, HttpStatus.OK);
 
     }
