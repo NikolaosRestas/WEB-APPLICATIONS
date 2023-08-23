@@ -55,8 +55,7 @@ public class GymService {
         return gymRepository.save(savedGym);
     }
 
-    public List<Gym> search() {
-        /*return gymRepository.findAllById(Collections.singleton(countyId));*/
-        return gymRepository.findAll();
+    public List<Gym> search(Long countyId) {
+        return gymRepository.findAllByCounty_Id(countyId);
     }
 }
