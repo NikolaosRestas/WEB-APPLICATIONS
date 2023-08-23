@@ -13,7 +13,7 @@ public class GymProgramService {
     private final ProgramRepository programRepository;
     private final CustomerService customerService;
 
-    public GymProgramService(ProgramRepository programRepository,CustomerService customerService) {
+    public GymProgramService(ProgramRepository programRepository, CustomerService customerService) {
         this.programRepository = programRepository;
         this.customerService = customerService;
     }
@@ -36,23 +36,22 @@ public class GymProgramService {
     }
 
     public Program insertProgram(ProgramRequestDto programRequestDto) {
-        final Customer customer = customerService.findCustomerById(programRequestDto.getCustomerId());
         final Program program = Program.builder()
                 .id(null)
                 .kind(programRequestDto.getKind())
                 .duration(programRequestDto.getDuration())
                 .price(programRequestDto.getPrice())
-                .customer(customer).build();
+                .customers(customerService.findCustomersByIds(programRequestDto.getCustomerIds()))
+                .build();
         return programRepository.save(program);
     }
 
-    public Program updateProgram(ProgramRequestDto programRequestDto,long id) {
+    public Program updateProgram(ProgramRequestDto programRequestDto, long id) {
         Program savedProgram = findProgramById(id);
         savedProgram.setKind(programRequestDto.getKind());
         savedProgram.setDuration(programRequestDto.getDuration());
         savedProgram.setPrice(programRequestDto.getPrice());
-        final Customer customer = customerService.findCustomerById(programRequestDto.getCustomerId());
-        savedProgram.setCustomer(customer);
+        savedProgram.setCustomers(customerService.findCustomersByIds(programRequestDto.getCustomerIds()));
         return programRepository.save(savedProgram);
     }
 }

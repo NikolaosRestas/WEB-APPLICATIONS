@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface GymRepository extends JpaRepository<Gym, Long> {
 
@@ -15,4 +17,6 @@ public interface GymRepository extends JpaRepository<Gym, Long> {
     @Modifying
     @Query("delete from Gym cust where cust.id = :gymId")
     int deleteGymById(@Param("gymId") Long id);
+
+    List<Gym> findAllByCounty_Id(Long countyId);
 }

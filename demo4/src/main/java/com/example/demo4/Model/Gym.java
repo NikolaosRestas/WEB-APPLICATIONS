@@ -32,6 +32,7 @@ public class Gym {
 
     @Column(name = "address")
     private String address;
+
     @ManyToOne
     @JoinColumn(name = "county_key")
     private County county;
