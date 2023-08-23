@@ -1,9 +1,34 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
+import {
+    Alert,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    TextField,
+    MenuItem,
+    Select,
+    OutlinedInput,
+    Checkbox, InputLabel
+} from '@mui/material';
 
 export default function NewProgramModal({isOpen, onClose, onSave}) {
     const [program, setProgram] = useState({name: ""});
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const [customersData, setCustomersData] = useState([]);
+    const [selectedCustomers, setSelectedCustomers] = useState([]);
+
+    useEffect(() => {
+        fetch('/customers')
+            .then(response => response.json())
+            .then(data => {
+                setCustomersData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching customers:', error);
+            });
+    }, []);
 
     useEffect(() => {
         setProgram({...program}); // Update local state when the clientData prop changes
@@ -46,15 +71,31 @@ export default function NewProgramModal({isOpen, onClose, onSave}) {
         }));
     };
 
+    const handleCustomerSelectChange = (event) => {
+        setSelectedCustomers(event.target.value);
+        setProgram((prevData) => ({
+            ...prevData,
+            customerIds: event.target.value,
+        }));
+    };
+
     return (
         <React.Fragment>
             <Dialog open={isOpen} onClose={onClose}>
                 <DialogTitle>New Program</DialogTitle>
                 <DialogContent>
                     <TextField
-                        label="Program Name"
-                        name="name"
-                        value={program.name}
+                        label="Kind"
+                        name="kind"
+                        value={program.kind}
+                        onChange={(e) => handleInputChange(e)}
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        label="Duration"
+                        name="duration"
+                        value={program.duration}
                         onChange={(e) => handleInputChange(e)}
                         fullWidth
                         margin="normal"
@@ -67,14 +108,27 @@ export default function NewProgramModal({isOpen, onClose, onSave}) {
                         fullWidth
                         margin="normal"
                     />
-                    <TextField
-                        label="Customers"
-                        name="customers"
-                        value={program.customers}
-                        onChange={(e) => handleInputChange(e)}
-                        fullWidth
-                        margin="normal"
-                    />
+                    <div>
+                        <InputLabel id="demo-multiple-name-label">Customers</InputLabel>
+                        <Select
+                            label="Customer"
+                            name="customerId"
+                            value={selectedCustomers}
+                            onChange={handleCustomerSelectChange}
+                            multiple
+                            input={<OutlinedInput label="Customer"/>}
+                            fullWidth
+                            margin="normal"
+                        >
+                            {customersData.map((customer) => (
+                                <MenuItem key={customer.id} value={customer.id}>
+                                    <Checkbox checked={selectedCustomers.includes(customer.id)}/>
+                                    {customer.name}
+                                </MenuItem>
+                            ))
+                            }
+                        </Select>
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancel}>Cancel</Button>

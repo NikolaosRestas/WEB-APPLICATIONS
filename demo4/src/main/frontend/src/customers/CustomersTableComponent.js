@@ -59,6 +59,7 @@ export default function CustomersTableComponent({customers,onChange}) {
                             <TableCell align="right">Email</TableCell>
                             <TableCell align="right">Phone</TableCell>
                             <TableCell align="right">Gym</TableCell>
+                            <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>

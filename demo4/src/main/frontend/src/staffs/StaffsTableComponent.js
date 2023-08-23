@@ -59,6 +59,7 @@ export default function StaffsTableComponent({staffs,onChange}) {
                             <TableCell align="right">Phone</TableCell>
                             <TableCell align="right">Gender</TableCell>
                             <TableCell align="right">Gym</TableCell>
+                            <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -74,7 +75,7 @@ export default function StaffsTableComponent({staffs,onChange}) {
                                 <TableCell align="right">{staff.specialty}</TableCell>
                                 <TableCell align="right">{staff.phone}</TableCell>
                                 <TableCell align="right">{staff.gender}</TableCell>
-                                <TableCell align="right">{staff.gym}</TableCell>
+                                <TableCell align="right">{staff.gym.name}</TableCell>
                                 <TableCell align="right">
                                     <Button variant="contained" color="primary" onClick={() => onEdit(staff)}>
                                         Edit

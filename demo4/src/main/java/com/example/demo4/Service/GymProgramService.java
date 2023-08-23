@@ -1,6 +1,8 @@
 package com.example.demo4.Service;
 
+import com.example.demo4.Model.Customer;
 import com.example.demo4.Model.Program;
+import com.example.demo4.Model.dto.ProgramRequestDto;
 import com.example.demo4.Repository.ProgramRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +11,11 @@ import java.util.List;
 @Service
 public class GymProgramService {
     private final ProgramRepository programRepository;
+    private final CustomerService customerService;
 
-    public GymProgramService(ProgramRepository programRepository) {
+    public GymProgramService(ProgramRepository programRepository,CustomerService customerService) {
         this.programRepository = programRepository;
+        this.customerService = customerService;
     }
 
     public List<Program> getAllPrograms() {
@@ -31,15 +35,24 @@ public class GymProgramService {
         return true;
     }
 
-    public Program insertProgram(Program program) {
+    public Program insertProgram(ProgramRequestDto programRequestDto) {
+        final Customer customer = customerService.findCustomerById(programRequestDto.getCustomerId());
+        final Program program = Program.builder()
+                .id(null)
+                .kind(programRequestDto.getKind())
+                .duration(programRequestDto.getDuration())
+                .price(programRequestDto.getPrice())
+                .customer(customer).build();
         return programRepository.save(program);
     }
 
-    public Program updateProgram(Program program) {
-        Program savedProgram = findProgramById(program.getId());
-        savedProgram.setDuration(program.getDuration());
-        savedProgram.setPrice(program.getPrice());
-        savedProgram.setCustomers(program.getCustomers());
+    public Program updateProgram(ProgramRequestDto programRequestDto,long id) {
+        Program savedProgram = findProgramById(id);
+        savedProgram.setKind(programRequestDto.getKind());
+        savedProgram.setDuration(programRequestDto.getDuration());
+        savedProgram.setPrice(programRequestDto.getPrice());
+        final Customer customer = customerService.findCustomerById(programRequestDto.getCustomerId());
+        savedProgram.setCustomer(customer);
         return programRepository.save(savedProgram);
     }
 }

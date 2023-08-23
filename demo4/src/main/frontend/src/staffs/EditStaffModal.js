@@ -1,9 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Alert} from '@mui/material';
+import {Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Alert,MenuItem,Select} from '@mui/material';
 
 export default function EditStaffModal({isOpen, onClose, clientData, onSave}) {
     const [editedData, setEditedData] = useState({...clientData});
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const [gymsData,setGymsData] = useState([]);
+
+
+    useEffect(() => {
+        fetch('/gyms')
+            .then(response => response.json())
+            .then(data => {
+                setGymsData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching gyms:', error);
+            });
+    }, []);
 
     useEffect(() => {
         setEditedData({...clientData}); // Update local state when the clientData prop changes
@@ -14,7 +27,7 @@ export default function EditStaffModal({isOpen, onClose, clientData, onSave}) {
         clientData.specialty = editedData.specialty;
         clientData.phone = editedData.phone;
         clientData.gender = editedData.gender;
-        clientData.gym = editedData.gym
+        clientData.gymId = editedData.gymId;
 
         fetch(`/staffs/${clientData.id}`,
             {
@@ -49,6 +62,15 @@ export default function EditStaffModal({isOpen, onClose, clientData, onSave}) {
             ...prevData,
             [name]: value,
         }));
+        if (name === 'gymId') {
+            let gym = gymsData.find(c => c.id === value);
+            console.log('gym: ', gym);
+            setEditedData((prevData) => ({
+                ...prevData,
+                ['gym']: gym,
+            }));
+        }
+
     };
 
     return (
@@ -88,14 +110,19 @@ export default function EditStaffModal({isOpen, onClose, clientData, onSave}) {
                         fullWidth
                         margin="normal"
                     />
-                    <TextField
+                    <Select
                         label="Gym"
-                        name="gym"
-                        value={editedData.gym}
+                        name="gymId"
+                        value={editedData.gymId || editedData.gym.id}
                         onChange={(e) => handleInputChange(e)}
                         fullWidth
                         margin="normal"
-                    />
+                    >
+                        {
+                            gymsData.map((gym) => (
+                                <MenuItem key={gym.id} value={gym.id}> {gym.name} </MenuItem>))
+                        }
+                    </Select>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancel}>Cancel</Button>

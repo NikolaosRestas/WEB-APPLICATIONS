@@ -1,18 +1,43 @@
 import React, {useEffect, useState} from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Alert} from '@mui/material';
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    TextField,
+    Alert,
+    MenuItem,
+    Select,
+    InputLabel, OutlinedInput, Checkbox
+} from '@mui/material';
 
 export default function EditProgramModal({isOpen, onClose, clientData, onSave}) {
-    const [editedData, setEditedData] = useState({...clientData});
+    const [editedData, setEditedData] = useState(() => {
+        const initData = clientData.customers.map(c => c.id);
+        const data = {...clientData, customerIds: initData};
+        return {...data};
+    });
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const [customersData, setCustomersData] = useState([]);
 
     useEffect(() => {
-        setEditedData({...clientData}); // Update local state when the clientData prop changes
-    }, [clientData]);
+        fetch('/customers')
+            .then(response => response.json())
+            .then(data => {
+                setCustomersData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching customers:', error);
+            });
+    }, []);
 
     const handleSave = () => {
+        clientData.kind = editedData.kind;
         clientData.duration = editedData.duration;
         clientData.price = editedData.price;
-        clientData.customers = editedData.customers;
+        clientData.customer = editedData.customer;
+        clientData.customerIds = editedData.customerIds;
 
         fetch(`/programs/${clientData.id}`,
             {
@@ -47,6 +72,13 @@ export default function EditProgramModal({isOpen, onClose, clientData, onSave}) 
             ...prevData,
             [name]: value,
         }));
+        if (name === 'customerIds') {
+            setEditedData((prevData) => ({
+                ...prevData,
+                customerIds: event.target.value,
+            }));
+        }
+
     };
 
     return (
@@ -54,6 +86,14 @@ export default function EditProgramModal({isOpen, onClose, clientData, onSave}) 
             <Dialog open={isOpen} onClose={onClose}>
                 <DialogTitle>Edit Program</DialogTitle>
                 <DialogContent>
+                    <TextField
+                        label="Kind"
+                        name="kind"
+                        value={editedData.kind}
+                        onChange={(e) => handleInputChange(e)}
+                        fullWidth
+                        margin="normal"
+                    />
                     <TextField
                         label="Duration"
                         name="duration"
@@ -70,14 +110,27 @@ export default function EditProgramModal({isOpen, onClose, clientData, onSave}) 
                         fullWidth
                         margin="normal"
                     />
-                    <TextField
-                        label="Customers"
-                        name="customers"
-                        value={editedData.customers}
-                        onChange={(e) => handleInputChange(e)}
-                        fullWidth
-                        margin="normal"
-                    />
+                    <div>
+                        <InputLabel>Customers</InputLabel>
+                        <Select
+                            label="Customer"
+                            name="customerIds"
+                            value={editedData.customerIds || []}
+                            onChange={(e) => handleInputChange(e)}
+                            multiple
+                            input={<OutlinedInput label="Customers"/>}
+                            fullWidth
+                            margin="normal"
+                        >
+                            {customersData.map((customer) => (
+                                <MenuItem key={customer.id} value={customer.id}>
+                                    <Checkbox checked={editedData.customerIds && editedData.customerIds.includes(customer.id)}/>
+                                    {customer.name}
+                                </MenuItem>
+                            ))
+                            }
+                        </Select>
+                    </div>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancel}>Cancel</Button>
