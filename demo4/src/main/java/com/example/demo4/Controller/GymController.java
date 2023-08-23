@@ -21,7 +21,7 @@ public class GymController {
     }
 
     @GetMapping
-    public List<Gym> getGyms(@RequestParam(value = "countyId", required = false) Long countyId) {
+    public List<Gym> getGyms() {
         return gymService.getAllGyms();
     }
 
@@ -50,6 +50,6 @@ public class GymController {
 
     @GetMapping("/search")
     public List<Gym> searchGyms(@RequestParam(value = "countyId", required = false) Long countyId) {
-        return gymService.search();
+        return gymService.search(countyId);
     }
 }

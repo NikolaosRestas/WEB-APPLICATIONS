@@ -42,8 +42,8 @@ public class GymProgramController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Program> updateProgram(@RequestBody ProgramRequestDto program,@PathVariable("id")long id) {
-        Program updatedProgram = programService.updateProgram(program,id);
+    public ResponseEntity<Program> updateProgram(@RequestBody ProgramRequestDto program, @PathVariable("id") long id) {
+        Program updatedProgram = programService.updateProgram(program, id);
         return new ResponseEntity<>(updatedProgram, HttpStatus.OK);
 
     }
