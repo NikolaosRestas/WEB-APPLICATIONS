@@ -27,10 +27,8 @@ public class Program {
     @Column(name = "price")
     private String price;
 
-    /*@ManyToMany*/
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "customer_key")
-    /*private List<Customer> customers;*/
-    private Customer customer;
+    private List<Customer> customers;
 
 }

@@ -30,6 +30,10 @@ public class CustomerService {
                 .orElseThrow(() -> new RuntimeException(String.format("Cannot find customer with id: %s", id)));
     }
 
+    public List<Customer> findCustomersByIds(List<Long> customerIds) {
+        return customerRepository.findAllById(customerIds);
+    }
+
     public boolean deleteCustomerById(Long id) {
         final int deletedCount = customerRepository.deleteCustomerById(id);
         if (deletedCount <= 0) {
@@ -56,7 +60,6 @@ public class CustomerService {
         savedCustomer.setAddress(customerRequestDto.getAddress());
         savedCustomer.setEmail(customerRequestDto.getEmail());
         savedCustomer.setPhone(customerRequestDto.getPhone());
-        final Gym gym = gymService.findGymById(customerRequestDto.getGymId());
         return customerRepository.save(savedCustomer);
     }
 }
