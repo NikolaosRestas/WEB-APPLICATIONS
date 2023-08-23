@@ -1,6 +1,8 @@
 package com.example.demo4.Service;
 
+import com.example.demo4.Model.Gym;
 import com.example.demo4.Model.Staff;
+import com.example.demo4.Model.dto.StaffRequestDto;
 import com.example.demo4.Repository.StaffRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,9 +11,11 @@ import java.util.List;
 @Service
 public class StaffService {
     private final StaffRepository staffRepository;
+    private final GymService gymService;
 
-    public StaffService(StaffRepository staffRepository) {
+    public StaffService(StaffRepository staffRepository,GymService gymService) {
         this.staffRepository = staffRepository;
+        this.gymService = gymService;
     }
 
     public List<Staff> getAllStaff() {
@@ -31,17 +35,25 @@ public class StaffService {
         return true;
     }
 
-    public Staff insertStaff(Staff staff) {
+    public Staff insertStaff(StaffRequestDto staffRequestDto) {
+        final Gym gym = gymService.findGymById(staffRequestDto.getGymId());
+        final Staff staff = Staff.builder()
+                .id(null)
+                .name(staffRequestDto.getName())
+                .specialty(staffRequestDto.getSpecialty())
+                .phone(staffRequestDto.getPhone())
+                .gender(staffRequestDto.getGender())
+                .gym(gym).build();
         return staffRepository.save(staff);
     }
 
-    public Staff updateStaff(Staff staff) {
-        Staff savedStaff = findStaffById(staff.getId());
-        savedStaff.setName(staff.getName());
-        savedStaff.setSpecialty(staff.getSpecialty());
-        savedStaff.setPhone(staff.getPhone());
-        savedStaff.setGender(staff.getGender());
-        savedStaff.setGym(staff.getGym());
+    public Staff updateStaff(StaffRequestDto staffRequestDto,long id) {
+        final Staff savedStaff = findStaffById(id);
+        savedStaff.setName(staffRequestDto.getName());
+        savedStaff.setSpecialty(staffRequestDto.getSpecialty());
+        savedStaff.setPhone(staffRequestDto.getPhone());
+        savedStaff.setGender(staffRequestDto.getGender());
+        final Gym gym = gymService.findGymById(staffRequestDto.getGymId());
         return staffRepository.save(savedStaff);
     }
 }

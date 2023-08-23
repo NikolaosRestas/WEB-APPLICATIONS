@@ -1,9 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import {Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from '@mui/material';
+import {Alert, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField,MenuItem,Select} from '@mui/material';
 
 export default function NewCustomerModal({isOpen, onClose, onSave}) {
     const [customer, setCustomer] = useState({name: ""});
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const [gymsData, setGymsData] = useState([]);
+
+
+    useEffect(() => {
+        fetch('/gyms')
+            .then(response => response.json())
+            .then(data => {
+                setGymsData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching gyms:', error);
+            });
+    }, []);
 
     useEffect(() => {
         setCustomer({...customer}); // Update local state when the clientData prop changes
@@ -91,6 +104,21 @@ export default function NewCustomerModal({isOpen, onClose, onSave}) {
                         fullWidth
                         margin="normal"
                     />
+                    <Select
+                        label="Gym"
+                        name="gymId"
+                        value={customer.gymId || 'default'}
+                        onChange={(e) => handleInputChange(e)}
+                        fullWidth
+                        margin="normal"
+                    >
+                        <MenuItem value="default" disabled>Select a Gym</MenuItem>
+                        {
+                            gymsData.map((gym) => (
+                                <MenuItem key={gym.id} value={gym.id}> {gym.name} </MenuItem>))
+                        }
+                    </Select>
+
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancel}>Cancel</Button>

@@ -34,21 +34,25 @@ const StaffsPage = () => {
     };
 
     const updateStaffs = (staff) => {
-        staffsData.push(staff);
-        console.log('Meta to add : ',staffsData);
-        setStaffsData(staffsData);
+        console.log('Staff',staff);
+        console.log('Staffs:',staffsData);
+
+        setStaffsData(prevStaffs=>[...prevStaffs,staff]);
+        console.log('Staffs meta: ',staffsData);
     };
 
     return (
-        <div>
-            <div className="relative container mx-auto mt-8 w-100">
+        <div className="flex justify-center">
+            <div className="container mx-4 mt-8 w-full max-w-screen-lg">
                 <h3 className="text-3xl font-bold mb-4">Staffs</h3>
-                <div className="absolute inset-x-0 top-0 h-16 ">
+
+                <div className="text-right mb-4">
                     <Button variant="contained" color="primary"
                             onClick={() => newStaff()}>
-                        New County!
+                        New staff
                     </Button>
                 </div>
+
                 <StaffsTableComponent staffs={staffsData} onChange={setStaffsData}/>
             </div>
 

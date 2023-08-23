@@ -1,18 +1,32 @@
 import React, {useEffect, useState} from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Alert} from '@mui/material';
+import {Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Alert, MenuItem, Select} from '@mui/material';
 
 export default function EditProgramModal({isOpen, onClose, clientData, onSave}) {
     const [editedData, setEditedData] = useState({...clientData});
     const [isSuccessAlertOpen, setIsSuccessAlertOpen] = useState(false);
+    const [customersData, setCustomersData] = useState([]);
+
+    useEffect(() => {
+        fetch('/customers')
+            .then(response => response.json())
+            .then(data => {
+                setCustomersData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching customers:', error);
+            });
+    }, []);
 
     useEffect(() => {
         setEditedData({...clientData}); // Update local state when the clientData prop changes
     }, [clientData]);
 
     const handleSave = () => {
+        clientData.kind = editedData.kind;
         clientData.duration = editedData.duration;
         clientData.price = editedData.price;
-        clientData.customers = editedData.customers;
+        clientData.customer = editedData.customer;
+        clientData.customerId = editedData.customerId;
 
         fetch(`/programs/${clientData.id}`,
             {
@@ -47,6 +61,15 @@ export default function EditProgramModal({isOpen, onClose, clientData, onSave}) 
             ...prevData,
             [name]: value,
         }));
+        if (name === 'customerId') {
+            let customer = customersData.find(c => c.id === value);
+            console.log('customer: ', customer);
+            setEditedData((prevData) => ({
+                ...prevData,
+                ['customer']: customer,
+            }));
+        }
+
     };
 
     return (
@@ -54,6 +77,14 @@ export default function EditProgramModal({isOpen, onClose, clientData, onSave}) 
             <Dialog open={isOpen} onClose={onClose}>
                 <DialogTitle>Edit Program</DialogTitle>
                 <DialogContent>
+                    <TextField
+                        label="Kind"
+                        name="kind"
+                        value={editedData.kind}
+                        onChange={(e) => handleInputChange(e)}
+                        fullWidth
+                        margin="normal"
+                    />
                     <TextField
                         label="Duration"
                         name="duration"
@@ -70,14 +101,19 @@ export default function EditProgramModal({isOpen, onClose, clientData, onSave}) 
                         fullWidth
                         margin="normal"
                     />
-                    <TextField
-                        label="Customers"
-                        name="customers"
-                        value={editedData.customers}
+                   <Select
+                        label="Customer"
+                        name="customerId"
+                        value={editedData.customerId || editedData.customer.id}
                         onChange={(e) => handleInputChange(e)}
                         fullWidth
                         margin="normal"
-                    />
+                    >
+                        {
+                            customersData.map((customer) => (
+                                <MenuItem key={customer.id} value={customer.id}> {customer.name} </MenuItem>))
+                        }
+                    </Select>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleCancel}>Cancel</Button>

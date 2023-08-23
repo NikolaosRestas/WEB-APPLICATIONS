@@ -1,6 +1,7 @@
 package com.example.demo4.Controller;
 
 import com.example.demo4.Model.Staff;
+import com.example.demo4.Model.dto.StaffRequestDto;
 import com.example.demo4.Service.StaffService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class StaffController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Staff> addStaff(@RequestBody Staff staff) {
+    public ResponseEntity<Staff> addStaff(@RequestBody StaffRequestDto staff) {
         final Staff createdStaff = staffService.insertStaff(staff);
         return new ResponseEntity<>(createdStaff, HttpStatus.CREATED);
     }
@@ -41,10 +42,9 @@ public class StaffController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Staff> updateStaff(@RequestBody Staff staff) {
-        Staff updatedStaff = staffService.updateStaff(staff);
+    public ResponseEntity<Staff> updateStaff(@RequestBody StaffRequestDto staff,@PathVariable("id") long id) {
+        Staff updatedStaff = staffService.updateStaff(staff,id);
         return new ResponseEntity<>(updatedStaff, HttpStatus.OK);
-
     }
 
 }
