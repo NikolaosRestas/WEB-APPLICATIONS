@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class CountryControllerTest {
+public class CountyControllerTest {
 
 
     @InjectMocks
@@ -48,9 +48,30 @@ public class CountryControllerTest {
         assertThat(response.getBody().get(0).getName()).isEqualTo("Giannena");
     }
 
+
+    @Test
+    public void testGetCounty() {
+        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/{id}");
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
+        Long requestCountyId = 1L;
+        County responseCounty = new County(1L,"Igoumenitsa");
+
+
+        when(countyService.findCountyById(requestCountyId)).thenReturn(responseCounty);
+
+        ResponseEntity<County> response = countyController.getCounty(requestCountyId);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getId()).isEqualTo(1L);
+        assertThat(response.getBody().getName()).isEqualTo("Igoumenitsa");
+    }
+
+
     @Test
     public void testAddCounty() {
-        MockHttpServletRequest request = new MockHttpServletRequest("GET", "/add");
+        MockHttpServletRequest request = new MockHttpServletRequest("POST", "/add");
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
         County requestCounty = new County(null, "ioannina");
         County responseCounty = new County(54L, "ioannina");
@@ -64,6 +85,41 @@ public class CountryControllerTest {
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getId()).isEqualTo(54L);
         assertThat(response.getBody().getName()).isEqualTo("ioannina");
+    }
+
+    @Test
+    public void testDeleteCounty() {
+        MockHttpServletRequest request = new MockHttpServletRequest("DELETE", "/{id}");
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
+        County requestCounty = new County(1L,"Igoumenitsa");
+
+
+        when(countyService.deleteCountyById(requestCounty.getId())).thenReturn(true);
+
+        ResponseEntity<County> response = countyController.deleteCounty(requestCounty.getId());
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNull();
+    }
+
+    @Test
+    public void testUpdateCounty() {
+        MockHttpServletRequest request = new MockHttpServletRequest("PUT", "/{id}");
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(request));
+
+        County requestCounty = new County(2L,"Kavala");
+        County responseCounty = new County(2L,"Kavala");
+
+
+        when(countyService.updateCounty(requestCounty)).thenReturn(responseCounty);
+
+        ResponseEntity<County> response = countyController.updateCounty(requestCounty);
+
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getBody()).isNotNull();
+        assertThat(response.getBody().getId()).isEqualTo(2L);
+        assertThat(response.getBody().getName()).isEqualTo("Kavala");
     }
 
 }
