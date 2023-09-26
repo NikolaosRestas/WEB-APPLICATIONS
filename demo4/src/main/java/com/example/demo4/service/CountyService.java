@@ -21,7 +21,10 @@ public class CountyService {
 
     public County findCountyById(Long id) {
         return countyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(String.format("Cannot find county with id: %s", id)));
+                .orElse(null);
+
+//        return countyRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException(String.format("Cannot find county with id: %s", id)));
     }
 
     public boolean deleteCountyById(Long id) {
@@ -41,9 +44,5 @@ public class CountyService {
         County savedCounty = findCountyById(county.getId());
         savedCounty.setName(county.getName());
         return countyRepository.save(savedCounty);
-    }
-
-    public String concatStrings(String name, int age) {
-        return String.format("%s's age is %s", name, age);
     }
 }
