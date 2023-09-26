@@ -42,8 +42,4 @@ public class CountyService {
         savedCounty.setName(county.getName());
         return countyRepository.save(savedCounty);
     }
-
-    public String concatStrings(String name, int age) {
-        return String.format("%s's age is %s", name, age);
-    }
 }
