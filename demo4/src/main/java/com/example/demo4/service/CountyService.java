@@ -21,7 +21,10 @@ public class CountyService {
 
     public County findCountyById(Long id) {
         return countyRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException(String.format("Cannot find county with id: %s", id)));
+                .orElse(null);
+
+//        return countyRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException(String.format("Cannot find county with id: %s", id)));
     }
 
     public boolean deleteCountyById(Long id) {

@@ -14,4 +14,5 @@ public interface CountyRepository extends JpaRepository<County,Long> {
     @Modifying
     @Query("delete from County cust where cust.id = :countyId")
     int deleteCountyById(@Param("countyId") Long id);
+
 }

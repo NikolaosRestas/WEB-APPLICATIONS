@@ -38,8 +38,6 @@ public class GymProgramControllerTest {
         List<Customer> customers = new ArrayList<Customer>();
         List<Program>programs = new ArrayList<Program>();
 
-        Program responseProgram = new Program(2L,"Weights","2Hours","20$",customers);
-
         programs.add(new Program(1L, "Weights", "2Hours", "15$", customers));
 
         when(programService.getAllPrograms()).thenReturn(programs);
