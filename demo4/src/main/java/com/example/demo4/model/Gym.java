@@ -14,6 +14,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Objects;
+
 @Entity
 @Getter
 @Setter
@@ -36,4 +38,17 @@ public class Gym {
     @ManyToOne
     @JoinColumn(name = "county_key")
     private County county;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Gym gym = (Gym) o;
+        return Objects.equals(id, gym.id) && Objects.equals(name, gym.name) && Objects.equals(address, gym.address) && Objects.equals(county, gym.county);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address, county);
+    }
 }
